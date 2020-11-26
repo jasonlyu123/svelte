@@ -671,7 +671,11 @@ export default class ElementWrapper extends Wrapper {
 		// handle edge cases for elements
 		if (this.node.name === 'select') {
 			const dependencies = new Set<string>();
-			for (const attr of this.attributes) {
+			const value_or_spread = this.attributes.filter(attr =>
+				attr.node.type === 'Spread' || attr.node.name === 'value'
+			);
+
+			for (const attr of value_or_spread) {
 				for (const dep of attr.node.dependencies) {
 					dependencies.add(dep);
 				}
